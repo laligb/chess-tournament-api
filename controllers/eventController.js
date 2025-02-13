@@ -14,7 +14,9 @@ const createEvent = async (request, response) => {
 
 const getAllEvents = async (request, response) => {
   try {
-    const events = await Event.find();
+    const events = await Event.find()
+      .populate("location")
+      .populate("statistics");
     response.json(events);
   } catch (err) {
     response.status(400).json({ error: err.message });
