@@ -1,11 +1,10 @@
-const { request, response } = require("express");
 const Event = require("../models/Event");
 
 const createEvent = async (request, response) => {
-  const { title, location, capacity, date } = request.body;
+  const { title, location, statistics, date } = request.body;
 
   try {
-    const newEvent = new Event({ title, location, capacity, date });
+    const newEvent = new Event({ title, location, statistics, date });
     const savedEvent = await newEvent.save();
     response.status(201).json({ savedEvent });
   } catch (err) {
@@ -23,21 +22,21 @@ const getAllEvents = async (request, response) => {
 };
 
 const updateEvent = async (request, response) => {
-  const { title, location, capacity, date } = request.body;
+  const { title, location, statistics, date } = request.body;
   try {
     const updatedEvent = await Event.findByIdAndUpdate(
       request.params.id,
       {
         title,
         location,
-        capacity,
-        data,
+        statistics,
+        date,
       },
       { new: true }
     );
-    request.json(updatedEvent);
+    response.json(updatedEvent);
   } catch (err) {
-    request.status(400).json({ error: err.message });
+    response.status(400).json({ error: err.message });
   }
 };
 
