@@ -1,10 +1,17 @@
 const Event = require("../models/Event");
 
 const createEvent = async (request, response) => {
-  const { title, location, statistics, date } = request.body;
+  const { title, location, statistics, date, type, format } = request.body;
 
   try {
-    const newEvent = new Event({ title, location, statistics, date });
+    const newEvent = new Event({
+      title,
+      location,
+      statistics,
+      date,
+      type,
+      format,
+    });
     const savedEvent = await newEvent.save();
     response.status(201).json({ savedEvent });
   } catch (err) {
@@ -24,7 +31,7 @@ const getAllEvents = async (request, response) => {
 };
 
 const updateEvent = async (request, response) => {
-  const { title, location, statistics, date } = request.body;
+  const { title, location, statistics, date, type, format } = request.body;
   try {
     const updatedEvent = await Event.findByIdAndUpdate(
       request.params.id,
@@ -33,6 +40,8 @@ const updateEvent = async (request, response) => {
         location,
         statistics,
         date,
+        type,
+        format,
       },
       { new: true }
     );

@@ -9,6 +9,15 @@ const eventSchema = new mongoose.Schema({
     ref: "Statistics",
     required: true,
   },
+  type: {
+    type: String,
+    enum: ["individual", "team"],
+    required: true,
+  },
+  format: {
+    type: String,
+    enum: ["blitz", "rapid", "standard"],
+  },
 });
 
 const Event = mongoose.model("Event", eventSchema);

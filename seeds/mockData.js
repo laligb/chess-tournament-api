@@ -1,4 +1,3 @@
-const mongoose = require("mongoose");
 const faker = require("faker");
 const Statistics = require("../models/Statistics");
 const Location = require("../models/Location");
@@ -16,6 +15,35 @@ const getRandomTournamentName = () => {
     "Rook's Endgame Challenge",
     "Queen's Gambit Classic",
     "Bobby Fischer Memorial",
+    "European Chess Championship",
+    "Masters Cup",
+    "Elite Chess Battle",
+    "Challenger Chess Tournament",
+    "Grand Slam Chess",
+    "Ultimate Chess Challenge",
+    "Chess Royale",
+    "International Blitz Cup",
+    "Rapidfire Chess Tournament",
+    "Grandmasters Invitational",
+    "FIDE Grand Prix",
+    "World Blitz Championship",
+    "Global Chess Open",
+    "Royal Chess Tournament",
+    "Strategic Chess Cup",
+    "Chess Superleague",
+    "Champions Chess Tournament",
+    "Premier Chess Championship",
+    "International Knights Cup",
+    "Battle of the Bishops",
+    "Dynamic Chess Open",
+    "Modern Chess Championship",
+    "Chess Titans Invitational",
+    "Future Chess Stars Cup",
+    "Grand Chess Festival",
+    "Masters of Chess",
+    "Chess Innovators Tournament",
+    "Revolution Chess Open",
+    "Invincible Chess Championship",
   ];
   return tournaments[Math.floor(Math.random() * tournaments.length)];
 };
@@ -32,16 +60,10 @@ const europeanLocations = [
   { name: "Milan", latitude: 45.4642, longitude: 9.19 },
   { name: "Lisbon", latitude: 38.7223, longitude: -9.1393 },
   { name: "Prague", latitude: 50.0755, longitude: 14.4378 },
-  { name: "Budapest", latitude: 47.4979, longitude: 19.0402 },
-  { name: "Dublin", latitude: 53.3498, longitude: -6.2603 },
-  { name: "Brussels", latitude: 50.8503, longitude: 4.3517 },
-  { name: "Stockholm", latitude: 59.3293, longitude: 18.0686 },
-  { name: "Copenhagen", latitude: 55.6761, longitude: 12.5683 },
-  { name: "Oslo", latitude: 59.9139, longitude: 10.7522 },
-  { name: "Helsinki", latitude: 60.1699, longitude: 24.9384 },
-  { name: "Zurich", latitude: 47.3769, longitude: 8.5417 },
-  { name: "Athens", latitude: 37.9838, longitude: 23.7275 },
 ];
+
+const tournamentTypes = ["individual", "team"];
+const tournamentFormats = ["blitz", "rapid", "standard"];
 
 const mockData = async () => {
   try {
@@ -55,7 +77,7 @@ const mockData = async () => {
     const locations = await Location.insertMany(europeanLocations);
     console.log("Inserted European locations");
 
-    const numEvents = 10;
+    const numEvents = 40;
     for (let i = 0; i < numEvents; i++) {
       const randomIndex = Math.floor(Math.random() * locations.length);
       const location = locations[randomIndex];
@@ -79,6 +101,13 @@ const mockData = async () => {
         date: faker.date.future(),
         location: location._id,
         statistics: stats._id,
+        type: tournamentTypes[
+          Math.floor(Math.random() * tournamentTypes.length)
+        ],
+        format:
+          tournamentFormats[
+            Math.floor(Math.random() * tournamentFormats.length)
+          ],
       });
       await event.save();
     }
