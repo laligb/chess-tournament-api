@@ -20,16 +20,45 @@ const getRandomTournamentName = () => {
   return tournaments[Math.floor(Math.random() * tournaments.length)];
 };
 
+const europeanLocations = [
+  { name: "London", latitude: 51.5074, longitude: -0.1278 },
+  { name: "Paris", latitude: 48.8566, longitude: 2.3522 },
+  { name: "Berlin", latitude: 52.52, longitude: 13.405 },
+  { name: "Madrid", latitude: 40.4168, longitude: -3.7038 },
+  { name: "Rome", latitude: 41.9028, longitude: 12.4964 },
+  { name: "Vienna", latitude: 48.2082, longitude: 16.3738 },
+  { name: "Amsterdam", latitude: 52.3676, longitude: 4.9041 },
+  { name: "Barcelona", latitude: 41.3851, longitude: 2.1734 },
+  { name: "Milan", latitude: 45.4642, longitude: 9.19 },
+  { name: "Lisbon", latitude: 38.7223, longitude: -9.1393 },
+  { name: "Prague", latitude: 50.0755, longitude: 14.4378 },
+  { name: "Budapest", latitude: 47.4979, longitude: 19.0402 },
+  { name: "Dublin", latitude: 53.3498, longitude: -6.2603 },
+  { name: "Brussels", latitude: 50.8503, longitude: 4.3517 },
+  { name: "Stockholm", latitude: 59.3293, longitude: 18.0686 },
+  { name: "Copenhagen", latitude: 55.6761, longitude: 12.5683 },
+  { name: "Oslo", latitude: 59.9139, longitude: 10.7522 },
+  { name: "Helsinki", latitude: 60.1699, longitude: 24.9384 },
+  { name: "Zurich", latitude: 47.3769, longitude: 8.5417 },
+  { name: "Athens", latitude: 37.9838, longitude: 23.7275 },
+];
+
 const mockData = async () => {
   try {
+    await Promise.all([
+      Event.deleteMany({}),
+      Statistics.deleteMany({}),
+      Location.deleteMany({}),
+    ]);
+    console.log("Existing data cleared");
+
+    const locations = await Location.insertMany(europeanLocations);
+    console.log("Inserted European locations");
+
     const numEvents = 10;
     for (let i = 0; i < numEvents; i++) {
-      const location = new Location({
-        name: faker.address.country(),
-        latitude: faker.address.latitude(),
-        longitude: faker.address.longitude(),
-      });
-      await location.save();
+      const randomIndex = Math.floor(Math.random() * locations.length);
+      const location = locations[randomIndex];
 
       const games = faker.datatype.number({ min: 10, max: 200 });
       const wins = faker.datatype.number({ min: 0, max: games });
