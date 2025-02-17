@@ -6,15 +6,20 @@ const userRoutes = require("./routes/userRoutes");
 const eventRoutes = require("./routes/eventRoutes");
 const mockData = require("./seeds/mockData");
 
+const mongoURI =
+  process.env.ATLAS_URI || "mongodb://127.0.0.1:27017/chess-database";
 const app = express();
 app.use(express.json());
 app.use(cors());
 
 mongoose
-  .connect("mongodb://127.0.0.1:27017/chess-database")
+  .connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(async () => {
-    console.log("MongoDB connected locally");
-    await mockData();
+    console.log(`MongoDB connected at ${mongoURI}`);
+
+    if (mongoURI.includes("127.0.0.1")) {
+      await mockData();
+    }
   })
   .catch((err) => console.log(err));
 
