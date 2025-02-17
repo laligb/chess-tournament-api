@@ -1,6 +1,6 @@
-const Event = require("../models/Event");
+import Event from "../models/Event.js";
 
-const createEvent = async (request, response) => {
+export const createEvent = async (request, response) => {
   const { title, location, statistics, date, type, format } = request.body;
 
   try {
@@ -19,7 +19,7 @@ const createEvent = async (request, response) => {
   }
 };
 
-const getAllEvents = async (request, response) => {
+export const getAllEvents = async (request, response) => {
   try {
     const events = await Event.find()
       .populate("location")
@@ -30,7 +30,7 @@ const getAllEvents = async (request, response) => {
   }
 };
 
-const updateEvent = async (request, response) => {
+export const updateEvent = async (request, response) => {
   const { title, location, statistics, date, type, format } = request.body;
   try {
     const updatedEvent = await Event.findByIdAndUpdate(
@@ -51,7 +51,7 @@ const updateEvent = async (request, response) => {
   }
 };
 
-const deleteEvent = async (request, response) => {
+export const deleteEvent = async (request, response) => {
   try {
     await Event.findByIdAndDelete(request.params.id);
     response.json({ message: "Event deleted" });
@@ -60,4 +60,4 @@ const deleteEvent = async (request, response) => {
   }
 };
 
-module.exports = { createEvent, getAllEvents, updateEvent, deleteEvent };
+export default { createEvent, getAllEvents, updateEvent, deleteEvent };

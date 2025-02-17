@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const StatsSchema = new mongoose.Schema({
   players: { type: Number, default: 0, required: true },
@@ -9,4 +9,4 @@ const StatsSchema = new mongoose.Schema({
 });
 
 const Statistics = mongoose.model("Statistics", StatsSchema);
-module.exports = Statistics;
+export default Statistics;

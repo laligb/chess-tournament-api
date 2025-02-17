@@ -1,7 +1,7 @@
-const faker = require("faker");
-const Statistics = require("../models/Statistics");
-const Location = require("../models/Location");
-const Event = require("../models/Event");
+import faker from "faker";
+import Statistics from "../models/Statistics.js";
+import Location from "../models/Location.js";
+import Event from "../models/Event.js";
 
 const getRandomTournamentName = () => {
   const tournaments = [
@@ -118,4 +118,4 @@ const mockData = async () => {
   }
 };
 
-module.exports = mockData;
+export default mockData;

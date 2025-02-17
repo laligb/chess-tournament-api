@@ -1,10 +1,11 @@
-require("dotenv").config();
-const express = require("express");
-const mongoose = require("mongoose");
-const cors = require("cors");
-const userRoutes = require("./routes/userRoutes");
-const eventRoutes = require("./routes/eventRoutes");
-const mockData = require("./seeds/mockData");
+import dotenv from "dotenv";
+dotenv.config();
+
+import express from "express";
+import mongoose from "mongoose";
+import cors from "cors";
+import eventRoutes from "./routes/eventRoutes.js";
+import mockData from "./seeds/mockData.js";
 
 const mongoURI =
   process.env.ATLAS_URI || "mongodb://127.0.0.1:27017/chess-database";
@@ -13,7 +14,7 @@ app.use(express.json());
 app.use(cors());
 
 mongoose
-  .connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .connect(mongoURI)
   .then(async () => {
     console.log(`MongoDB connected at ${mongoURI}`);
 
@@ -23,7 +24,6 @@ mongoose
   })
   .catch((err) => console.log(err));
 
-app.use("/api/users", userRoutes);
 app.use("/api/events", eventRoutes);
 
 const PORT = process.env.PORT || 5000;
