@@ -9,7 +9,9 @@ import mockData from "./seeds/mockData.js";
 
 const mongoURI =
   process.env.ATLAS_URI || "mongodb://127.0.0.1:27017/chess-database";
+
 const app = express();
+
 app.use(express.json());
 app.use(cors());
 
@@ -17,7 +19,6 @@ mongoose
   .connect(mongoURI)
   .then(async () => {
     console.log(`MongoDB connected at ${mongoURI}`);
-
     if (mongoURI.includes("127.0.0.1")) {
       await mockData();
     }
@@ -26,7 +27,11 @@ mongoose
 
 app.use("/api/events", eventRoutes);
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+if (process.env.NODE_ENV !== "production") {
+  const PORT = process.env.PORT || 5000;
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
+}
+
+export default app;
