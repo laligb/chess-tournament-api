@@ -26,6 +26,7 @@ export const getAllEvents = async (request, response) => {
       .populate("statistics");
     response.json(events);
   } catch (err) {
+    console.error("Error in getAllEvents:", err);
     response.status(400).json({ error: err.message });
   }
 };
