@@ -31,6 +31,7 @@ A simple RESTful API to manage chess tournaments.
 Start the server:
 
 ```bash
+mongod
 node server.js
 ```
 
