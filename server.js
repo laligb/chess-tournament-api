@@ -29,9 +29,26 @@ async function dbConnect() {
   return cached.conn;
 }
 
+const allowedOrigins = [
+  'https://chess-tournament-react.vercel.app',
+  'http://localhost:5173'
+];
+
+const corsOptions = {
+  origin: function (origin, callback) {
+      if (allowedOrigins.includes(origin) || !origin) {
+          callback(null, true);
+      } else {
+          callback(new Error('Not allowed by CORS'));
+      }
+  },
+  optionsSuccessStatus: 200
+};
+
+
 const app = express();
 app.use(express.json());
-app.use(cors());
+app.use(cors(corsOptions));
 
 dbConnect()
   .then(async () => {
