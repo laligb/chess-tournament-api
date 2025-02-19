@@ -31,7 +31,11 @@ async function dbConnect() {
 
 const app = express();
 app.use(express.json());
-app.use(cors());
+app.use(
+  cors({
+    origin: ["https://chess-tournament-react.vercel.app"],
+  })
+);
 
 dbConnect()
   .then(async () => {
@@ -46,11 +50,13 @@ dbConnect()
 
 app.use("/api/events", eventRoutes);
 
-if (process.env.NODE_ENV !== "production") {
-  const PORT = process.env.PORT || 5000;
-  app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-  });
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
+
+if (process.env.NODE_ENV === "production") {
+  console.log("Running in production mode");
 }
 
 export default app;
