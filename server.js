@@ -31,11 +31,7 @@ async function dbConnect() {
 
 const app = express();
 app.use(express.json());
-app.use(
-  cors({
-    origin: ["https://chess-tournament-react.vercel.app"],
-  })
-);
+app.use(cors());
 
 dbConnect()
   .then(async () => {
